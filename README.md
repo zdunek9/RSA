@@ -17,5 +17,35 @@ Program:
 
 Projekt ma pokazać działanie RSA więc generuje małe 16 bitowe liczby. Prawdziwe bezpieczeństwo mogą dać większe liczby co najmniej 1024 bitowe.
 
+
+
+# RSA Secure Communication Project
+
+Projekt realizowany w ramach kursu Applied Cryptography.
+
+## Obecne funkcje
+- Generacja liczb pierwszych (16-bit) – do demonstracji
+- Implementacja testu Millera–Rabina
+- Implementacja rozszerzonego algorytmu Euklidesa
+- Generacja kluczy RSA
+
+## Planowane moduły
+- Szyfrowanie i deszyfrowanie RSA
+- Implementacja szyfru symetrycznego (AES)
+- Prosty protokół komunikacji (CLI)
+- Testy jednostkowe
+- Raport końcowy + przykłady
+
+## Kompilacja
+
+
+## Autorzy
+- Mateusz Hutorowicz
+- Daniel Wybranowski
+- Michał Zduńczyk
+
+
+
+
 ---
 
