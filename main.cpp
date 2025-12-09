@@ -102,7 +102,7 @@ BigInt euklides(BigInt a, BigInt b, BigInt& x, BigInt& y)
     BigInt x1, y1;
     BigInt g = euklides(b, a % b, x1, y1);
     x = y1;
-    y = x1 - y1 * (a % b);
+    y = x1 - y1 * (a / b);
     return g;
 }
 

@@ -179,7 +179,7 @@ long long euklides(long long a, long long b, long long& x, long long& y)
     long long g = euklides(b, a % b, x1, y1);
 
     x = y1;
-    y = x1 - y1 * (a % b);
+    y = x1 - y1 * (a / b);
 
     return g;
 }
