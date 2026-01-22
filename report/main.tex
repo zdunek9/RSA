@@ -98,6 +98,33 @@ Poprawność implementacji została zweryfikowana przy użyciu testów matematyc
 
 Działanie kryptosystemu RSA sprawdzono poprzez szyfrowanie i deszyfrowanie wiadomości tekstowych. Odszyfrowana wiadomość była identyczna z wiadomością oryginalną, co potwierdza poprawność implementacji algorytmu RSA. Najbardziej czasochłonnym etapem działania systemu jest generowanie kluczy, natomiast szyfrowanie i deszyfrowanie krótkich wiadomości przebiega wystarczająco szybko dla celów demonstracyjnych. Ograniczeniem rozwiązania jest brak obsługi dużych ilości danych.
 
+\subsection*{Przykład działania systemu}
+
+Poprawność działania systemu została również zweryfikowana na podstawie
+rzeczywistego uruchomienia programu demonstracyjnego
+(\texttt{secure\_demo.cpp}). Poniżej przedstawiono przykładowy wynik
+uzyskany podczas testu systemu.
+
+\begin{itemize}
+\item \textbf{Wiadomość jawna (plaintext):} HELLO
+\item \textbf{Wiadomość po odszyfrowaniu (decrypted plaintext):} HELLO
+\end{itemize}
+
+Podczas szyfrowania każdy znak wiadomości został zaszyfrowany osobno
+przy użyciu algorytmu RSA. Wygenerowany szyfrogram stanowił ciąg dużych
+liczb całkowitych, zapisanych do pliku \texttt{cipher.txt}. Fragment
+rzeczywistego szyfrogramu przedstawiono poniżej:
+
+\begin{verbatim}
+14432898923990352452009045344983720966622271983973591131000170864005536...
+10343580874497184732684271618570625033912501502479511875915177614092409...
+20038361361298919327328562897599194252421215161097741995486639385839009...
+\end{verbatim}
+
+Odszyfrowana wiadomość jest identyczna z wiadomością oryginalną, co
+jednoznacznie potwierdza poprawność implementacji algorytmu RSA oraz
+zastosowanego protokołu bezpiecznej komunikacji.
+
 % =========================
 \section{Analiza bezpieczeństwa}
 % (e)
