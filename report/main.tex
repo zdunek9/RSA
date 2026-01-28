@@ -1,0 +1,144 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+
+\title{Kryptografia stosowana: Szyfrowanie RSA i bezpieczna komunikacja}
+\author{Michał Zduńczyk \and Daniel Wybranowski \and Mateusz Hutorowicz}
+\date{}
+
+\begin{document}
+\maketitle
+
+% =========================
+\section{Wstęp}
+% TODO: do uzupełnienia
+% =========================
+
+% =========================
+\section{Podstawy matematyczne}
+% TODO: do uzupełnienia
+% =========================
+
+% =========================
+\section{Projekt i implementacja}
+% (c)
+% =========================
+
+W ramach projektu zaimplementowano system bezpiecznej komunikacji oparty na kryptosystemie klucza publicznego RSA. System został zaprojektowany w sposób modularny, oddzielając warstwę matematyczno--kryptograficzną od warstwy demonstracyjnej i testowej. Implementacja obejmuje generowanie kluczy RSA, szyfrowanie i deszyfrowanie danych, testowanie poprawności algorytmów oraz prosty protokół komunikacji symulujący bezpieczną wymianę wiadomości.
+
+Generowanie kluczy RSA polega na losowaniu dwóch dużych liczb pierwszych o długości 1024 bitów. Do sprawdzania ich pierwszości zastosowano probabilistyczny test Millera--Rabina, który zapewnia wysokie prawdopodobieństwo poprawności przy akceptowalnym czasie obliczeń. Następnie obliczany jest moduł
+\( n = p \cdot q \) oraz funkcja Eulera
+\( \varphi(n) = (p - 1)(q - 1) \).
+Wykładnik publiczny \( e \) wybierany jest jako standardowa wartość 65537, natomiast wykładnik prywatny \( d \) wyznaczany jest przy użyciu rozszerzonego algorytmu Euklidesa poprzez obliczenie odwrotności modularnej.
+
+Szyfrowanie i deszyfrowanie danych realizowane są zgodnie z definicją algorytmu RSA. Do obliczeń potęg modularnych wykorzystano algorytm szybkiego potęgowania (exponentiation by squaring), co znacząco zwiększa wydajność obliczeń dla dużych wykładników. Operacje arytmetyczne na dużych liczbach całkowitych realizowane są przy użyciu biblioteki \texttt{\path{boost::multiprecision::cpp\_int}}.
+
+W celu obsługi wiadomości tekstowych zastosowano uproszczony mechanizm kodowania polegający na zamianie znaków ASCII na wartości liczbowe. Każdy znak szyfrowany jest osobno, co pozwala spełnić warunek \( m < n \) bez stosowania złożonych schematów dopełniania (paddingu).
+
+Demonstracyjny protokół bezpiecznej komunikacji został zaimplementowany w pliku
+\texttt{\path{secure_demo.cpp}}. Symuluje on wymianę wiadomości pomiędzy nadawcą i odbiorcą poprzez generowanie kluczy, publikację klucza publicznego, szyfrowanie wiadomości, zapis szyfrogramu do pliku oraz jego odszyfrowanie po stronie odbiorcy.
+
+\subsection*{Pseudocode: RSA Key Generation}
+\begin{verbatim}
+Algorithm RSA-Key-Generation
+Input: key length
+Output: public key (e, n), private key (d, n)
+
+1. Generate two large random primes p and q
+2. Compute n = p * q
+3. Compute phi(n) = (p - 1)(q - 1)
+4. Choose e such that gcd(e, phi(n)) = 1
+5. Compute d = e^(-1) mod phi(n)
+6. Return (e, n) and (d, n)
+\end{verbatim}
+
+\subsection*{Pseudocode: RSA Encryption}
+\begin{verbatim}
+Algorithm RSA-Encrypt
+Input: message m, public key (e, n)
+Output: ciphertext c
+
+1. Ensure m < n
+2. Compute c = m^e mod n
+3. Return c
+\end{verbatim}
+
+\subsection*{Pseudocode: RSA Decryption}
+\begin{verbatim}
+Algorithm RSA-Decrypt
+Input: ciphertext c, private key (d, n)
+Output: message m
+
+1. Compute m = c^d mod n
+2. Return m
+\end{verbatim}
+
+\subsection*{Pseudocode: Secure Communication Protocol}
+\begin{verbatim}
+Algorithm Secure-Communication
+1. Receiver generates RSA key pair
+2. Receiver publishes public key (e, n)
+3. Sender encrypts message using public key
+4. Ciphertext is transmitted over public channel
+5. Receiver decrypts message using private key
+\end{verbatim}
+
+% =========================
+\section{Wyniki}
+% (d)
+% =========================
+
+Poprawność implementacji została zweryfikowana przy użyciu testów matematycznych oraz testów funkcjonalnych. Rozszerzony algorytm Euklidesa został przetestowany na dużej liczbie losowych par liczb, co potwierdziło poprawność obliczeń największego wspólnego dzielnika oraz spełnienie tożsamości Bézouta.
+
+Działanie kryptosystemu RSA sprawdzono poprzez szyfrowanie i deszyfrowanie wiadomości tekstowych. Odszyfrowana wiadomość była identyczna z wiadomością oryginalną, co potwierdza poprawność implementacji algorytmu RSA. Najbardziej czasochłonnym etapem działania systemu jest generowanie kluczy, natomiast szyfrowanie i deszyfrowanie krótkich wiadomości przebiega wystarczająco szybko dla celów demonstracyjnych. Ograniczeniem rozwiązania jest brak obsługi dużych ilości danych.
+
+\subsection*{Przykład działania systemu}
+
+Poprawność działania systemu została również zweryfikowana na podstawie
+rzeczywistego uruchomienia programu demonstracyjnego
+(\texttt{secure\_demo.cpp}). Poniżej przedstawiono przykładowy wynik
+uzyskany podczas testu systemu.
+
+\begin{itemize}
+\item \textbf{Wiadomość jawna (plaintext):} HELLO
+\item \textbf{Wiadomość po odszyfrowaniu (decrypted plaintext):} HELLO
+\end{itemize}
+
+Podczas szyfrowania każdy znak wiadomości został zaszyfrowany osobno
+przy użyciu algorytmu RSA. Wygenerowany szyfrogram stanowił ciąg dużych
+liczb całkowitych, zapisanych do pliku \texttt{cipher.txt}. Fragment
+rzeczywistego szyfrogramu przedstawiono poniżej:
+
+\begin{verbatim}
+14432898923990352452009045344983720966622271983973591131000170864005536...
+10343580874497184732684271618570625033912501502479511875915177614092409...
+20038361361298919327328562897599194252421215161097741995486639385839009...
+\end{verbatim}
+
+Odszyfrowana wiadomość jest identyczna z wiadomością oryginalną, co
+jednoznacznie potwierdza poprawność implementacji algorytmu RSA oraz
+zastosowanego protokołu bezpiecznej komunikacji.
+
+% =========================
+\section{Analiza bezpieczeństwa}
+% (e)
+% =========================
+
+Bezpieczeństwo kryptosystemu RSA opiera się na trudności faktoryzacji dużych liczb złożonych. Przy zastosowanej długości klucza 1024 bity system spełnia cele demonstracyjne projektu, jednak w rzeczywistych zastosowaniach zalecane są obecnie dłuższe klucze.
+
+Implementacja ma charakter edukacyjny i zawiera uproszczenia. Kodowanie wiadomości odbywa się bez użycia formalnych schematów dopełniania, takich jak PKCS\#1, które w realnych systemach kryptograficznych są niezbędne do ochrony przed atakami opartymi na strukturze danych. Dodatkowo klucze kryptograficzne zapisywane są do plików tekstowych, co w praktycznych zastosowaniach stanowiłoby istotne zagrożenie bezpieczeństwa.
+
+W rzeczywistych systemach RSA wykorzystywane jest zazwyczaj wyłącznie do bezpiecznej wymiany kluczy, natomiast dane szyfrowane są przy użyciu algorytmów symetrycznych, takich jak AES. Takie podejście, znane jako szyfrowanie hybrydowe, znacząco poprawia wydajność i bezpieczeństwo systemu.
+
+% =========================
+\section{Podsumowanie}
+% TODO: do uzupełnienia
+% =========================
+
+\end{document}

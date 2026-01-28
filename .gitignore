@@ -1,3 +1,6 @@
+.vscode/
 main
 main2.cpp
 *.exe
+cipher.txt
+keys.txt
