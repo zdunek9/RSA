@@ -9,7 +9,10 @@ using namespace std;
 using namespace boost::random;
 
 // Generator globalny
+// 1024
 typedef independent_bits_engine<mt19937, 1024, BigInt> generator_type;
+// 2048
+// typedef independent_bits_engine<mt19937, 2048, BigInt> generator_type;
 generator_type gen(clock());
 
 // Potęgowanie modularne: (a^d) % n
@@ -77,7 +80,10 @@ BigInt get_random_prime_1024()
     while (true)
     {
         n = gen();
+        // 1024
         bit_set(n, 1023);
+        // 2048
+        //  bit_set(n, 2047);
         bit_set(n, 0);
 
         if (is_probable_prime(n, 20))
@@ -87,7 +93,7 @@ BigInt get_random_prime_1024()
     }
 }
 
-BigInt euklides(BigInt a, BigInt b, BigInt& x, BigInt& y)
+BigInt euklides(BigInt a, BigInt b, BigInt &x, BigInt &y)
 {
     if (b == 0)
     {
@@ -112,7 +118,7 @@ BigInt mod_inverse(BigInt a, BigInt m)
 }
 
 // Szyfrowanie: c = m^e mod n
-BigInt RSA_encrypt(const BigInt& m, const BigInt& e, const BigInt& n)
+BigInt RSA_encrypt(const BigInt &m, const BigInt &e, const BigInt &n)
 {
     if (m >= n)
     {
@@ -123,7 +129,7 @@ BigInt RSA_encrypt(const BigInt& m, const BigInt& e, const BigInt& n)
 }
 
 // Odszyfrowanie: m = c^d mod n
-BigInt RSA_decrypt(const BigInt& c, const BigInt& d, const BigInt& n)
+BigInt RSA_decrypt(const BigInt &c, const BigInt &d, const BigInt &n)
 {
     if (c >= n)
     {

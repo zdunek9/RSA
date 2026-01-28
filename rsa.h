@@ -7,7 +7,10 @@ using BigInt = boost::multiprecision::cpp_int;
 
 // Deklaracja globalnego generatora
 #include <boost/random.hpp>
+//1024
 typedef boost::random::independent_bits_engine<boost::random::mt19937, 1024, BigInt> generator_type;
+//2048
+// typedef boost::random::independent_bits_engine<boost::random::mt19937, 2048, BigInt> generator_type;
 extern generator_type gen;
 
 // Funkcje RSA
