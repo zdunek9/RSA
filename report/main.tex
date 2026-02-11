@@ -17,15 +17,46 @@
 
 % =========================
 \section{Wstęp}
-% TODO: do uzupełnienia
+% (a)
 % =========================
 
+Wprowadzenie — Przegląd RSA i cele kryptograficzne projektu
+
+Celem projektu było zaprojektowanie oraz implementacja kryptosystemu RSA, który jest jednym z najważniejszych i najczęściej stosowanych algorytmów kryptografii asymetrycznej. Algorytm RSA umożliwia bezpieczne przesyłanie informacji przez niezabezpieczony kanał komunikacyjny bez konieczności wcześniejszego współdzielenia tajnego klucza między stronami.
+
+Głównym problemem rozwiązywanym w projekcie było bezpieczne przesłanie wiadomości przez niezaufane środowisko komunikacyjne przy użyciu zaimplementowanego systemu szyfrowania. Rozwiązanie polega na wygenerowaniu pary kluczy — publicznego i prywatnego — gdzie klucz publiczny służy do szyfrowania danych, a klucz prywatny do ich odszyfrowania.
+
+W ramach projektu zaimplementowano mechanizm generowania kluczy, proces szyfrowania oraz odszyfrowania wiadomości. Implementacja pokazuje, jak matematyczne podstawy kryptografii mogą zostać przełożone na działający system informatyczny. Projekt ma również na celu zrozumienie różnicy między kryptografią symetryczną i asymetryczną oraz praktycznych aspektów bezpieczeństwa danych.
+
 % =========================
+
+
 \section{Podstawy matematyczne}
-% TODO: do uzupełnienia
+% (b)
 % =========================
 
+Podstawy matematyczne — Fundamenty działania RSA
+
+Algorytm RSA opiera się na kilku kluczowych pojęciach matematycznych: liczbach pierwszych, arytmetyce modularnej oraz funkcjach jednokierunkowych.
+
+Podstawą działania RSA jest wybór dwóch dużych liczb pierwszych. Liczby te są następnie mnożone, tworząc moduł 
+n, który stanowi część klucza publicznego i prywatnego. Mnożenie dużych liczb pierwszych jest operacją obliczeniowo łatwą, natomiast rozkład ich iloczynu na czynniki pierwsze jest bardzo trudny dla odpowiednio dużych wartości. Bezpieczeństwo RSA wynika właśnie z trudności problemu faktoryzacji dużych liczb.
+
+Drugim istotnym elementem jest arytmetyka modularna, czyli wykonywanie działań z resztą z dzielenia. Zarówno szyfrowanie, jak i odszyfrowanie w RSA polega na potęgowaniu modulo n. Do efektywnego wykonywania takich obliczeń stosuje się algorytmy szybkiego potęgowania modularnego, które pozwalają pracować na bardzo dużych liczbach.
+
+W procesie generowania kluczy wykorzystuje się również funkcję Eulera 𝜑(𝑛), która określa liczbę liczb względnie pierwszych z 
+n. Wybierany jest wykładnik publiczny e, który jest względnie pierwszy z 𝜑(𝑛), a następnie obliczany jest wykładnik prywatny 
+𝑑 jako odwrotność modularna liczby 𝑒 modulo 𝜑(𝑛).Dzięki temu operacje szyfrowania i odszyfrowania są wzajemnie odwracalne.
+
+RSA jest przykładem funkcji jednokierunkowej z tzw. „furtką” (trapdoor). Oznacza to, że łatwo jest wykonać operację szyfrowania przy użyciu klucza publicznego, natomiast odwrócenie jej bez znajomości klucza prywatnego jest obliczeniowo niepraktyczne.
+
+RSA należy do kryptografii asymetrycznej — używa dwóch różnych kluczy. W przeciwieństwie do niej kryptografia symetryczna (np. AES) wykorzystuje jeden wspólny klucz do szyfrowania i odszyfrowania. Szyfry symetryczne są znacznie szybsze, ale wymagają bezpiecznego sposobu przekazania klucza. W praktyce często stosuje się systemy hybrydowe: RSA do wymiany klucza, a AES do szyfrowania danych.
+
+Należy podkreślić, że bezpieczeństwo RSA opiera się fundamentalnie na trudności faktoryzacji dużych liczb — jest to podstawowe założenie bezpieczeństwa tego algorytmu.
+
 % =========================
+
+
 \section{Projekt i implementacja}
 % (c)
 % =========================
@@ -138,7 +169,20 @@ W rzeczywistych systemach RSA wykorzystywane jest zazwyczaj wyłącznie do bezpi
 
 % =========================
 \section{Podsumowanie}
-% TODO: do uzupełnienia
+
+% (f)
+% =========================
+Podsumowanie — Wnioski i możliwe rozszerzenia
+
+Projekt pozwolił na praktyczne poznanie działania kryptosystemu RSA oraz zrozumienie matematycznych podstaw kryptografii asymetrycznej. Podczas realizacji zaimplementowano generowanie kluczy, szyfrowanie i odszyfrowanie wiadomości, co umożliwiło przełożenie teorii na działający system.
+
+W trakcie pracy wykorzystano pojęcia takie jak liczby pierwsze, arytmetyka modularna, odwrotność modularna oraz szybkie potęgowanie. Projekt pokazał również, jak istotne są parametry bezpieczeństwa, w szczególności długość klucza oraz jakość generowanych liczb losowych.
+
+Możliwe przyszłe rozszerzenia projektu obejmują zastosowanie większych długości kluczy, co zwiększyłoby poziom bezpieczeństwa systemu. Kolejnym krokiem mogłaby być implementacja podpisów cyfrowych z użyciem RSA, co pozwoliłoby zapewnić nie tylko poufność, ale także autentyczność i integralność danych.
+
+System można również rozbudować do postaci kryptosystemu hybrydowego, w którym RSA służy do bezpiecznej wymiany klucza symetrycznego, a właściwe dane szyfrowane są szybkim algorytmem symetrycznym, takim jak AES. Dodatkowo można dodać mechanizmy paddingu (np. OAEP), bezpieczne generatory liczb losowych oraz optymalizacje wydajnościowe.
+
+Takie rozszerzenia przybliżyłyby projekt do rozwiązań stosowanych w rzeczywistych systemach kryptograficznych.
 % =========================
 
 \end{document}
